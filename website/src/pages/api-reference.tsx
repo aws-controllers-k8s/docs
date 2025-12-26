@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import Layout from '@theme/Layout';
 import CodeBlock from '@theme/CodeBlock';
 import { useHistory, useLocation } from '@docusaurus/router';
+import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import styles from './api-reference.module.css';
 import apiReferenceIndex from '../data/api-reference-index.json';
 
@@ -48,54 +50,157 @@ interface ResourceIndex {
   services: ServiceIndex[];
 }
 
-function FieldRow({ field, depth = 0 }: { field: Field; depth?: number }) {
-  const [expanded, setExpanded] = useState(depth < 1);
-  const hasNested = (field.properties && field.properties.length > 0);
+// Render markdown description with custom link handling
+function DescriptionMarkdown({ text }: { text: string }) {
+  return (
+    <Markdown
+      remarkPlugins={[remarkGfm]}
+      components={{
+        // Open links in new tab
+        a: ({ href, children }) => (
+          <a href={href} target="_blank" rel="noopener noreferrer">
+            {children}
+          </a>
+        ),
+        // Render paragraphs as spans to avoid nesting issues
+        p: ({ children }) => <span className={styles.mdParagraph}>{children}</span>,
+      }}
+    >
+      {text}
+    </Markdown>
+  );
+}
+
+// Truncatable description component
+const DESC_CHAR_LIMIT = 220;
+
+function TruncatableDescription({ text, limit = DESC_CHAR_LIMIT }: { text: string; limit?: number }) {
+  const [showFull, setShowFull] = useState(false);
+
+  if (!text || text.length <= limit) {
+    return <DescriptionMarkdown text={text} />;
+  }
+
+  if (showFull) {
+    return (
+      <>
+        <DescriptionMarkdown text={text} />
+        <button
+          className={styles.moreBtn}
+          onClick={() => setShowFull(false)}
+        >
+          less
+        </button>
+      </>
+    );
+  }
+
+  // Truncate at word boundary
+  const truncated = text.slice(0, limit).replace(/\s+\S*$/, '');
 
   return (
     <>
-      <tr className={styles.fieldRow}>
-        <td className={styles.fieldName} style={{ paddingLeft: `${depth * 24 + 12}px` }}>
-          {hasNested && (
+      <DescriptionMarkdown text={truncated} />
+      <span className={styles.ellipsis}>…</span>
+      <button
+        className={styles.moreBtn}
+        onClick={() => setShowFull(true)}
+      >
+        more
+      </button>
+    </>
+  );
+}
+
+// Nested fields component
+function NestedFieldsCard({ fields, depth }: { fields: Field[]; depth: number }) {
+  return (
+    <div className={styles.nestedCard} style={{ marginLeft: `${depth * 16}px` }}>
+      {fields.map((field) => (
+        <NestedFieldItem key={field.name} field={field} depth={depth} />
+      ))}
+    </div>
+  );
+}
+
+// Individual nested field item - structured like a mini table row
+function NestedFieldItem({ field, depth }: { field: Field; depth: number }) {
+  const [expanded, setExpanded] = useState(false);
+  const hasNested = field.properties && field.properties.length > 0;
+
+  return (
+    <div className={styles.nestedFieldItem}>
+      <div className={styles.nestedFieldRow}>
+        <div className={styles.nestedFieldName}>
+          {hasNested ? (
             <button
-              className={styles.expandIcon}
+              className={`${styles.nestedExpandBtn} ${expanded ? styles.nestedExpandBtnExpanded : ''}`}
+              onClick={() => setExpanded(!expanded)}
+            >
+              {expanded ? '−' : '+'}
+            </button>
+          ) : (
+            <span className={styles.nestedExpandSpacer} />
+          )}
+          <code className={styles.nestedFieldCode}>{field.name}</code>
+          {field.required && <span className={styles.nestedRequiredBadge}>required</span>}
+        </div>
+        <div className={styles.nestedFieldType}>
+          <span className={`${styles.typeBadgeSmall} ${styles[`type${field.type.charAt(0).toUpperCase() + field.type.slice(1)}`]}`}>
+            {field.type}
+          </span>
+        </div>
+      </div>
+      {field.description && (
+        <div className={styles.nestedFieldDesc}>
+          <TruncatableDescription text={field.description} />
+        </div>
+      )}
+      {expanded && hasNested && (
+        <NestedFieldsCard fields={field.properties!} depth={depth + 1} />
+      )}
+    </div>
+  );
+}
+
+function FieldRow({ field }: { field: Field }) {
+  const [expanded, setExpanded] = useState(false);
+  const hasNested = field.properties && field.properties.length > 0;
+
+  return (
+    <div className={`${styles.fieldItem} ${hasNested && expanded ? styles.expandedParent : ''}`}>
+      <div className={styles.fieldItemRow}>
+        <div className={styles.fieldItemName}>
+          {hasNested ? (
+            <button
+              className={`${styles.expandToggle} ${expanded ? styles.expandToggleExpanded : ''}`}
               onClick={() => setExpanded(!expanded)}
               aria-label={expanded ? 'Collapse' : 'Expand'}
+              title={expanded ? `Hide ${field.properties!.length} nested properties` : `Show ${field.properties!.length} nested properties`}
             >
-              <span className={`${styles.chevron} ${expanded ? styles.chevronExpanded : ''}`} />
+              {expanded ? '−' : '+'}
             </button>
+          ) : (
+            <span className={styles.expandSpacer} />
           )}
-          <code className={styles.fieldNameCode}>{field.name}</code>
-          {field.required && <span className={styles.requiredBadge}>required</span>}
-        </td>
-        <td className={styles.fieldType}>
+          <code className={styles.fieldNameCode} title={field.name}>{field.name}</code>
+          {field.required && <span className={styles.requiredTag}>required</span>}
+        </div>
+        <div className={styles.fieldItemType}>
           <span className={`${styles.typeBadge} ${styles[`type${field.type.charAt(0).toUpperCase() + field.type.slice(1)}`]}`}>
             {field.type}
           </span>
-        </td>
-        <td className={styles.fieldDescription}>
-          {field.description || <span className={styles.noDescription}>No description</span>}
-        </td>
-      </tr>
-      {expanded && field.type === 'array' && field.itemType && !field.properties && (
-        <tr className={styles.fieldRow}>
-          <td className={styles.fieldName} style={{ paddingLeft: `${(depth + 1) * 24 + 12}px` }}>
-            <code className={styles.fieldNameCode}>items</code>
-          </td>
-          <td className={styles.fieldType}>
-            <span className={`${styles.typeBadge} ${styles[`type${field.itemType.charAt(0).toUpperCase() + field.itemType.slice(1)}`]}`}>
-              {field.itemType}
-            </span>
-          </td>
-          <td className={styles.fieldDescription}>
-            <span className={styles.noDescription}>Array items</span>
-          </td>
-        </tr>
+        </div>
+        <div className={styles.fieldItemDesc}>
+          {field.description ? <TruncatableDescription text={field.description} /> : <span className={styles.noDescription}>No description</span>}
+        </div>
+      </div>
+      {expanded && hasNested && (
+        <div className={styles.nestedCardContainer}>
+          <NestedFieldsCard fields={field.properties!} depth={1} />
+        </div>
       )}
-      {expanded && field.properties?.map((subField) => (
-        <FieldRow key={subField.name} field={subField} depth={depth + 1} />
-      ))}
-    </>
+    </div>
   );
 }
 
@@ -112,21 +217,15 @@ function FieldTable({ fields, title }: { fields: Field[]; title: string }) {
   return (
     <div className={styles.section}>
       <h4>{title}</h4>
-      <div className={styles.tableWrapper}>
-        <table className={styles.fieldTable}>
-          <thead>
-            <tr>
-              <th style={{ width: '30%' }}>Field</th>
-              <th style={{ width: '15%' }}>Type</th>
-              <th style={{ width: '55%' }}>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            {fields.map((field) => (
-              <FieldRow key={field.name} field={field} />
-            ))}
-          </tbody>
-        </table>
+      <div className={styles.fieldList}>
+        <div className={styles.fieldListHeader}>
+          <span className={styles.fieldListHeaderName}>Field</span>
+          <span className={styles.fieldListHeaderType}>Type</span>
+          <span className={styles.fieldListHeaderDesc}>Description</span>
+        </div>
+        {fields.map((field) => (
+          <FieldRow key={field.name} field={field} />
+        ))}
       </div>
     </div>
   );
@@ -219,7 +318,7 @@ function ResourceDetail({ resource, serviceName, onBack, onHome }: { resource: R
 
       {resource.description && (
         <div className={styles.description}>
-          <p>{resource.description}</p>
+          <p><TruncatableDescription text={resource.description} limit={300} /></p>
         </div>
       )}
 
