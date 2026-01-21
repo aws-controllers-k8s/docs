@@ -196,7 +196,7 @@ Browse the complete list with installation instructions, version info, and maint
       </div>
       <div className="card__body">
         <p>Install your first controller and create an AWS resource.</p>
-        <a href="/docs/docs/getting-started" className="button button--primary button--block">Get Started</a>
+        <a href="/docs/getting-started" className="button button--primary button--block">Get Started</a>
       </div>
     </div>
   </div>
@@ -207,7 +207,7 @@ Browse the complete list with installation instructions, version info, and maint
       </div>
       <div className="card__body">
         <p>Understand CRDs, controllers, reconciliation, and more.</p>
-        <a href="/docs/docs/concepts" className="button button--secondary button--block">Read Concepts</a>
+        <a href="/docs/concepts" className="button button--secondary button--block">Read Concepts</a>
       </div>
     </div>
   </div>

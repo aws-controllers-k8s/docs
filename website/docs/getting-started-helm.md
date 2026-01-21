@@ -418,7 +418,7 @@ Remember to configure appropriate IAM permissions for each controller.
       </div>
       <div className="card__body">
         <p>Understand CRDs, controllers, reconciliation, and more.</p>
-        <a href="/docs/docs/concepts" className="button button--secondary button--block">Read Concepts</a>
+        <a href="/docs/concepts" className="button button--secondary button--block">Read Concepts</a>
       </div>
     </div>
   </div>
@@ -429,7 +429,7 @@ Remember to configure appropriate IAM permissions for each controller.
       </div>
       <div className="card__body">
         <p>Learn about resource adoption, field exports, and deletion policies.</p>
-        <a href="/docs/docs/guides/adoption" className="button button--secondary button--block">View Guides</a>
+        <a href="/docs/guides/adoption" className="button button--secondary button--block">View Guides</a>
       </div>
     </div>
   </div>
