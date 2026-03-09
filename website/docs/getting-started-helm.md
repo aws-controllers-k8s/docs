@@ -187,11 +187,17 @@ See the [Configure IAM Permissions guide](/guides/configure-iam) for more detail
 Use AWS credentials from your local environment (not recommended for production):
 
 ```bash
+# Create the credentials file
+cat <<EOF > credentials
+[default]
+aws_access_key_id = $(aws configure get aws_access_key_id)
+aws_secret_access_key = $(aws configure get aws_secret_access_key)
+EOF
+
 # Create secret with AWS credentials
 kubectl create secret generic -n $ACK_SYSTEM_NAMESPACE \
   ack-${SERVICE}-user-secrets \
-  --from-literal=AWS_ACCESS_KEY_ID=$(aws configure get aws_access_key_id) \
-  --from-literal=AWS_SECRET_ACCESS_KEY=$(aws configure get aws_secret_access_key)
+  --from-file=credentials
 
 # Configure controller to use the secret
 export ACK_ENABLE_DEVELOPMENT_LOGGING=true
