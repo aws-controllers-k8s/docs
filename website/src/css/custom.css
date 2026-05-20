@@ -191,3 +191,19 @@ pre {
   overflow-x: auto;
 }
 
+
+/* New badge for category headers only (not children) */
+.sidebar-category-new > .menu__list-item-collapsible > .menu__link > span::after {
+  content: 'New';
+  padding: 2px 6px;
+  margin-left: 8px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #ff9520 0%, #ff6b00 100%);
+  color: white;
+  border-radius: 4px;
+  white-space: nowrap;
+  position: absolute;
+  right: 30px;
+}

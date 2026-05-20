@@ -4,4 +4,4 @@ sidebar_position: 10
 
 # Contributing
 
-Coming soon...
+See the [Contributor Docs](./contributor-docs/overview) section for full details on contributing to ACK.

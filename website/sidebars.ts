@@ -111,6 +111,73 @@ const sidebars: SidebarsConfig = {
         'guides/performance',
       ],
     },
+    {
+      type: 'category',
+      label: 'Contributor Docs',
+      className: 'sidebar-category-new',
+      collapsed: true,
+      link: {
+        type: 'doc',
+        id: 'contributor-docs/overview',
+      },
+      items: [
+        {
+          type: 'doc',
+          id: 'contributor-docs/overview',
+          label: 'Contribution Overview',
+        },
+        {
+          type: 'doc',
+          id: 'contributor-docs/tenets',
+          label: 'Project Tenets',
+        },
+        {
+          type: 'doc',
+          id: 'contributor-docs/code-generation',
+          label: 'Code Generation',
+        },
+        {
+          type: 'doc',
+          id: 'contributor-docs/code-organization',
+          label: 'Code Organization',
+        },
+        {
+          type: 'doc',
+          id: 'contributor-docs/operatorhub-onboarding',
+          label: 'OperatorHub Onboarding',
+        },
+        {
+          type: 'doc',
+          id: 'contributor-docs/api-inference',
+          label: 'API Inference',
+        },
+        {
+          type: 'doc',
+          id: 'contributor-docs/setup',
+          label: 'Setup',
+        },
+        {
+          type: 'doc',
+          id: 'contributor-docs/building-controller',
+          label: 'Building a Controller',
+        },
+        {
+          type: 'doc',
+          id: 'contributor-docs/code-generator-config',
+          label: 'Understanding generator.yaml Configuration',
+        },
+        {
+          type: 'doc',
+          id: 'contributor-docs/testing',
+          label: 'Testing',
+        },
+        {
+          type: 'doc',
+          id: 'contributor-docs/release',
+          label: 'Release',
+        },
+      ],
+    },
   ],
 };
 
