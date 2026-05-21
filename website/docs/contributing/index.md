@@ -18,7 +18,7 @@ We follow a set of tenets in building ACK:
 
 4. **Run Anywhere** — ACK service controllers can be installed on any Kubernetes cluster, regardless of whether you use Amazon EKS.
 
-5. **Minimize Service Dependencies** — ACK service controllers only depend on IAM/STS and the specific AWS service they integrate with. We do not depend on CloudFormation, Cloud Control API, or Terraform.
+5. **Minimize Service Dependencies** — ACK service controllers only depend on IAM/STS and the specific AWS service they integrate with. We do not take a dependency on any stateful resource-tracking service, such as CloudFormation, Cloud Control API, or Terraform.
 
 ## Getting Started
 
@@ -26,13 +26,13 @@ We follow a set of tenets in building ACK:
 |-------|-------------|
 | [Development Setup](setup.md) | Fork repos, install prerequisites, build the code generator |
 | [Building a Controller](building-controller.md) | Generate and compile a service controller |
+| [Code Organization](code-organization.md) | Repository structure overview |
 | [Code Generation Overview](code-generation/overview.md) | How the code generator works |
 | [Configuration Reference](code-generation/configuration.md) | generator.yaml fields and options |
 | [Hooks and Custom Code](code-generation/hooks.md) | Injecting custom logic into generated controllers |
 | [Field Configuration](code-generation/field-config.md) | Renames, immutability, references, tags, wrappers |
 | [Testing](testing.md) | E2E test patterns and running tests |
 | [Releasing](releasing.md) | Release process and versioning |
-| [Code Organization](code-organization.md) | Repository structure overview |
 
 ## AI-Assisted Development
 
@@ -44,4 +44,4 @@ If you use AI coding tools (Claude Code, Kiro, Cursor, etc.), installing this sk
 
 - [GitHub Issues](https://github.com/aws-controllers-k8s/community/issues) — Bug reports and feature requests
 - [GitHub Discussions](https://github.com/orgs/aws-controllers-k8s/discussions) — Questions and conversations
-- [Slack Channel](https://kubernetes.slack.com/archives/C01EWFWCM9X) — `#provider-aws-controllers` on Kubernetes Slack
+- [Slack Channel](https://kubernetes.slack.com/archives/C0402D8JJS1) — `#aws-controllers-k8s` on Kubernetes Slack
