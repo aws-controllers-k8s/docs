@@ -7,10 +7,8 @@ title: Field Export
 
 The `FieldExport` resource allows you to copy any `spec` or `status` field from an ACK resource into a Kubernetes ConfigMap or Secret. This bridges the gap between managing AWS resources and using their properties in your applications.
 
-:::warning Deprecation Notice
-**Field Export is being deprecated and will be removed in a future release.**
-
-For composing resources and managing dependencies, we recommend using [kro](https://kro.run) instead.
+:::tip
+For more advanced resource composition and dependency management use cases, consider using [kro](https://kro.run).
 :::
 
 ## How It Works
