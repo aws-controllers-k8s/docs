@@ -348,9 +348,9 @@ kubectl logs -n $ACK_SYSTEM_NAMESPACE deployment/ack-${SERVICE}-controller
 </TabItem>
 </Tabs>
 
-## Finding Recommended Policies
+## Finding Quick-Setup Policies
 
-Each ACK controller repository contains recommended IAM policies:
+Each ACK controller repository publishes IAM policies intended for **quick setup**. These are broad AWS managed policies that get a controller running fast. They are a convenient starting point, not a production-ready least-privilege configuration:
 
 ```bash
 # Policy ARN (AWS managed policy)
@@ -368,6 +368,17 @@ Examples:
 :::warning Production use
 For production, create custom policies with least-privilege permissions instead of using `*FullAccess` policies.
 :::
+
+## Multi-Tenant Clusters
+
+On a shared cluster where multiple teams or tenants create ACK resources, a single broad controller role becomes a security risk: any tenant able to create a custom resource can drive the controller to act with that role's full permissions. The controller's IAM role is shared across every namespace it watches, so a permissive role effectively grants those permissions to all tenants.
+
+For safe multi-tenant installations, do not rely on one wide-scoped role. Instead:
+
+- **Scope the default controller role** to the minimum permissions required, following least-privilege.
+- **Use the `IAMRoleSelector`** to map distinct IAM roles to specific namespaces, resource types, or accounts. This lets each tenant's resources be reconciled with a role limited to that tenant's permissions, providing isolation between teams sharing the cluster.
+
+See [Granular IAM Roles](/guides/cross-account) for how to configure per-namespace and per-tenant roles with `IAMRoleSelector`.
 
 ## Next Steps
 
