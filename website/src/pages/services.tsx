@@ -57,6 +57,7 @@ function ServiceCard({ service }: { service: Service }) {
 
   return (
     <div className={styles.serviceCard}>
+      <a href={apiRefUrl} className={styles.cardLink} aria-label={`View ${service.displayName} API reference`} />
       <div className={styles.cardHeader}>
         <h3>{service.displayName}</h3>
         <div className={styles.badges}>

@@ -948,6 +948,23 @@
   background: linear-gradient(135deg, rgba(125, 211, 232, 0.05) 0%, rgba(125, 211, 232, 0.02) 100%);
 }
 
+.statCardClickable {
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.statCardClickable:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.statCardClickable:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
 .statNumber {
   font-size: 3rem;
   font-weight: 700;
@@ -1341,6 +1358,17 @@
   background-color: var(--ifm-color-emphasis-200);
   padding: 0.25rem 0.75rem;
   border-radius: 4px;
+}
+
+.versionBadgeLink {
+  text-decoration: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.versionBadgeLink:hover {
+  color: var(--ifm-color-primary);
+  background-color: var(--ifm-color-emphasis-300);
+  text-decoration: none;
 }
 
 .serviceSummaryStats {
