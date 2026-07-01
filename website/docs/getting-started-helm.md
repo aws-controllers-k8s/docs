@@ -74,7 +74,7 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 :::warning Use least-privilege permissions in production
-The examples below attach the broad `AmazonDynamoDBFullAccess` managed policy to get you started quickly. For production, and especially for multi-tenant clusters, scope the IAM role down to only the actions and resources the controller needs, and isolate teams with per-namespace roles. See [Configure IAM Permissions](/guides/configure-iam) and [Granular IAM Roles](/guides/cross-account).
+The examples below attach the broad `AmazonDynamoDBFullAccess` managed policy to get you started quickly. For production, scope the IAM role down to only the actions and resources the controller needs. See [Configure IAM Permissions](/guides/configure-iam).
 :::
 
 <Tabs>

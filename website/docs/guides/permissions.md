@@ -172,7 +172,7 @@ kubectl auth can-i create buckets --namespace default
 The IAM role needs the correct [IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) for a given ACK service controller. For example, the ACK service controller for AWS S3 needs read and write permission for S3 Buckets.
 
 :::warning Administrator responsibility
-It is the administrator's responsibility to scope down IAM permissions to what the controller actually needs. You should restrict permissions based on your security requirements, such as limiting to specific resources, regions, or actions. On shared, multi-tenant clusters this is especially important. See [Granular IAM Roles](/guides/cross-account) for isolating teams and namespaces with per-role permissions.
+It is the administrator's responsibility to scope down IAM permissions to what the controller actually needs. You should restrict permissions based on your security requirements, such as limiting to specific resources, regions, or actions.
 :::
 
 Each ACK service controller publishes a policy intended for **quick setup**, located in the `recommended-policy-arn` file in the `config/iam/` folder within that service's public repository. This file contains the AWS Resource Name (ARN) of an AWS managed policy for the service. For example, the [quick-setup policy ARN for AWS S3](https://github.com/aws-controllers-k8s/s3-controller/tree/main/config/iam) is `arn:aws:iam::aws:policy/AmazonS3FullAccess`. These managed policies grant full access to the service to get you running fast; for production you should replace them with least-privilege policies scoped to your needs.
