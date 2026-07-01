@@ -369,16 +369,22 @@ Examples:
 For production, create custom policies with least-privilege permissions instead of using `*FullAccess` policies.
 :::
 
-## Multi-Tenant Clusters
+## Granular IAM Role Scoping
 
-On a shared cluster where multiple teams or tenants create ACK resources, a single broad controller role becomes a security risk: any tenant able to create a custom resource can drive the controller to act with that role's full permissions. The controller's IAM role is shared across every namespace it watches, so a permissive role effectively grants those permissions to all tenants.
+By default, an ACK controller uses a single IAM role for every resource it reconciles. If that role is broadly permissioned, any resource the controller acts on can use all of those permissions, and anyone able to create a custom resource the controller watches can drive it to act with that role's full access. This matters whenever different workloads need different permissions, for example:
 
-For safe multi-tenant installations, do not rely on one wide-scoped role. Instead:
+- A shared cluster where multiple teams or tenants create ACK resources and should be isolated from one another.
+- A single team running multiple applications that manage different resource types and shouldn't share one broad role.
+- Resources that need to be reconciled into different AWS accounts.
 
-- **Scope the default controller role** to the minimum permissions required, following least-privilege.
-- **Use the `IAMRoleSelector`** to map distinct IAM roles to specific namespaces, resource types, or accounts. This lets each tenant's resources be reconciled with a role limited to that tenant's permissions, providing isolation between teams sharing the cluster.
+To scope permissions narrowly instead of relying on one wide role:
 
-See [Granular IAM Roles](/guides/cross-account) for how to configure per-namespace and per-tenant roles with `IAMRoleSelector`.
+- **Scope the default controller role** to least-privilege. This role is the fallback used when no `IAMRoleSelector` matches a resource, so grant it only the permissions those unmatched resources need (or nothing beyond a baseline needed to assume roles specified by IAMRoleSelectors).
+- **Use the `IAMRoleSelector`** to map distinct IAM roles to specific namespaces, resource types, and/or accounts, so each resource is reconciled with a role limited to the permissions it needs.
+
+Because an `IAMRoleSelector` maps a role to whatever matches its selectors, isolation also depends on your Kubernetes RBAC. RBAC is namespace-scoped, so restrict who can create ACK resources in each namespace that a selector maps a role to. That way a workload can only reach the role intended for its namespace. If you select namespaces by label, also control who can apply those labels to namespaces. Matching the RBAC scope to the selector scope is what actually provides isolation.
+
+See [Granular IAM Roles](/guides/cross-account) for how to configure roles with `IAMRoleSelector`.
 
 ## Next Steps
 
