@@ -348,9 +348,9 @@ kubectl logs -n $ACK_SYSTEM_NAMESPACE deployment/ack-${SERVICE}-controller
 </TabItem>
 </Tabs>
 
-## Finding Recommended Policies
+## Finding Quick-Setup Policies
 
-Each ACK controller repository contains recommended IAM policies:
+Each ACK controller repository publishes IAM policies intended for **quick setup**. These are broad AWS managed policies that get a controller running fast. They are a convenient starting point, not a production-ready least-privilege configuration:
 
 ```bash
 # Policy ARN (AWS managed policy)
@@ -368,6 +368,23 @@ Examples:
 :::warning Production use
 For production, create custom policies with least-privilege permissions instead of using `*FullAccess` policies.
 :::
+
+## Granular IAM Role Scoping
+
+By default, an ACK controller uses a single IAM role for every resource it reconciles. If that role is broadly permissioned, any resource the controller acts on can use all of those permissions, and anyone able to create a custom resource the controller watches can drive it to act with that role's full access. This matters whenever different workloads need different permissions, for example:
+
+- A shared cluster where multiple teams or tenants create ACK resources and should be isolated from one another.
+- A single team running multiple applications that manage different resource types and shouldn't share one broad role.
+- Resources that need to be reconciled into different AWS accounts.
+
+To scope permissions narrowly instead of relying on one wide role:
+
+- **Scope the default controller role** to least-privilege. This role is the fallback used when no `IAMRoleSelector` matches a resource, so grant it only the permissions those unmatched resources need (or nothing beyond a baseline needed to assume roles specified by IAMRoleSelectors).
+- **Use the `IAMRoleSelector`** to map distinct IAM roles to specific namespaces, resource types, and/or accounts, so each resource is reconciled with a role limited to the permissions it needs.
+
+Because an `IAMRoleSelector` maps a role to whatever matches its selectors, isolation also depends on your Kubernetes RBAC. RBAC is namespace-scoped, so restrict who can create ACK resources in each namespace that a selector maps a role to. That way a workload can only reach the role intended for its namespace. If you select namespaces by label, also control who can apply those labels to namespaces. Matching the RBAC scope to the selector scope is what actually provides isolation.
+
+See [Granular IAM Roles](/guides/cross-account) for how to configure roles with `IAMRoleSelector`.
 
 ## Next Steps
 

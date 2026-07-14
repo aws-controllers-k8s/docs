@@ -73,6 +73,10 @@ The controller needs AWS credentials to create resources. Choose your authentica
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+:::warning Use least-privilege permissions in production
+The examples below attach the broad `AmazonDynamoDBFullAccess` managed policy to get you started quickly. For production, scope the IAM role down to only the actions and resources the controller needs. See [Configure IAM Permissions](/guides/configure-iam).
+:::
+
 <Tabs>
 <TabItem value="podidentity" label="PodIdentity" default>
 
