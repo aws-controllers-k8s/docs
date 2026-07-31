@@ -494,6 +494,17 @@ function ServiceSummary({
   // Status is pre-computed by the generator
   const status = service.status;
 
+  const resourcesRef = useRef<HTMLDivElement>(null);
+  const examplesRef = useRef<HTMLDivElement>(null);
+  const hasExamples = !!service.examples && service.examples.length > 0;
+  const releaseUrl = service.releaseVersion
+    ? `https://github.com/aws-controllers-k8s/${service.name}-controller/releases/tag/v${service.releaseVersion}`
+    : null;
+
+  const scrollTo = (ref: React.RefObject<HTMLDivElement>) => {
+    ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   return (
     <div className={styles.serviceSummary}>
       <nav className={styles.breadcrumbNav} aria-label="Breadcrumbs">
@@ -512,23 +523,44 @@ function ServiceSummary({
             {status === 'ga' ? 'General Availability' : status === 'preview' ? 'Preview' : 'Archived'}
           </span>
           {service.releaseVersion && (
-            <span className={styles.versionBadge}>v{service.releaseVersion}</span>
+            releaseUrl ? (
+              <a
+                className={`${styles.versionBadge} ${styles.versionBadgeLink}`}
+                href={releaseUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="View release on GitHub"
+              >
+                v{service.releaseVersion}
+              </a>
+            ) : (
+              <span className={styles.versionBadge}>v{service.releaseVersion}</span>
+            )
           )}
         </div>
       </div>
 
       <div className={styles.serviceSummaryStats}>
-        <div className={styles.statCard}>
+        <button
+          type="button"
+          className={`${styles.statCard} ${styles.statCardClickable}`}
+          onClick={() => scrollTo(resourcesRef)}
+        >
           <div className={styles.statNumber}>{service.resources.length}</div>
           <div className={styles.statLabel}>CRDs</div>
-        </div>
-        <div className={styles.statCard}>
+        </button>
+        <button
+          type="button"
+          className={`${styles.statCard} ${styles.statCardClickable}`}
+          onClick={() => scrollTo(examplesRef)}
+          disabled={!hasExamples}
+        >
           <div className={styles.statNumber}>{service.examples?.length || 0}</div>
           <div className={styles.statLabel}>Examples</div>
-        </div>
+        </button>
       </div>
 
-      <div className={styles.resourcesSection}>
+      <div className={styles.resourcesSection} ref={resourcesRef}>
         <h3>Available Resources</h3>
         <p className={styles.resourcesHelp}>
           Click on a resource to view its complete API specification including all spec and status fields.
@@ -551,8 +583,8 @@ function ServiceSummary({
         </div>
       </div>
 
-      {service.examples && service.examples.length > 0 && (
-        <div className={styles.resourcesSection}>
+      {hasExamples && (
+        <div className={styles.resourcesSection} ref={examplesRef}>
           <h3>Examples</h3>
           <p className={styles.resourcesHelp}>
             Sample manifests from the controller's e2e tests. Click on a row to view the YAML.
