@@ -13,6 +13,7 @@ ACK controllers support feature gates that enable or disable specific functional
 | **ResourceAdoption** | Beta | Enabled | Import existing AWS resources into ACK management using adoption annotations. [Learn more](/guides/adoption) |
 | **ReadOnlyResources** | Beta | Enabled | Observe AWS resources without ACK managing them using read-only annotation. [Learn more](/guides/readonly) |
 | **IAMRoleSelector** | Alpha | Disabled | Use IAMRoleSelector CRD for dynamic IAM role mapping to namespaces and resources. [Learn more](/guides/cross-account) |
+| **IgnoreFieldDrift** | Alpha | Disabled | Stop reconciling drift on specific fields using the ignore-field-drift annotation. [Learn more](/guides/ignore-field-drift) |
 | **ServiceLevelCARM** | Alpha | Disabled | Enable CARM (Cross-Account Resource Management) for service-level resources |
 | **TeamLevelCARM** | Alpha | Disabled | Enable CARM (Cross-Account Resource Management) for team-level resources |
 
@@ -53,4 +54,5 @@ Enabling IAMRoleSelector disables CARM features. These features cannot be used t
 
 - [Resource adoption](/guides/adoption) - Import existing AWS resources
 - [ReadOnly resources](/guides/readonly) - Observe resources without managing them
+- [Ignore field drift](/guides/ignore-field-drift) - Stop reconciling drift on specific fields
 - [Advanced IAM roles](/guides/cross-account) - Configure IAMRoleSelector for multi-account management

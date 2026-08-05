@@ -68,6 +68,12 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'doc',
+          id: 'guides/ignore-field-drift',
+          label: 'Ignore Field Drift',
+          className: 'sidebar-item-new',
+        },
+        {
+          type: 'doc',
           id: 'guides/deletion-policy',
           label: 'Deletion Policy',
         },
