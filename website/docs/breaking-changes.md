@@ -22,7 +22,7 @@ Cross-namespace resource references (including `*Ref` fields, `SecretKeyReferenc
 | Phase | Description |
 |:------|:------------|
 | **Phase 1 (current)** | Flag added with default `true`. Warning condition set on resources using cross-namespace references |
-| **Phase 2**<br/>**(future release)** | Flag default changes to `false`. Cross-namespace references rejected unless opted in |
+| **Phase 2**<br/>**(future release)** | Flag default changes to `false`. Cross-namespace reference resolution and field exports blocked unless opted in |
 
 ### Who is affected
 
