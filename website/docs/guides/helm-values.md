@@ -289,7 +289,7 @@ For cross-account resource management, use the **IAMRoleSelector** feature gate 
 ### `enableCrossNamespace`
 - **Type**: Boolean
 - **Default**: `true`
-- **Description**: Enable cross-namespace behavior including resource references (`*Ref` fields), secret references (`SecretKeyReference`), and `FieldExport` targets. When `false`, the controller rejects any operation that crosses namespace boundaries. Maps to the `--enable-cross-namespace` controller flag.
+- **Description**: Enable cross-namespace behavior including resource references (`*Ref` fields), secret references (`SecretKeyReference`), and `FieldExport` targets. When `false`, the controller blocks any reference resolution or field export that crosses namespace boundaries. Maps to the `--enable-cross-namespace` controller flag.
 
 :::warning
 The default for `enableCrossNamespace` will change from `true` to `false` in a future release. If you rely on cross-namespace references, explicitly set `enableCrossNamespace: true` before upgrading. See [Breaking Changes](/breaking-changes) for details.
