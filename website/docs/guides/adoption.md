@@ -66,7 +66,8 @@ The `adopt` policy strictly imports the resource as it exists in AWS. Use this w
 
 **Requirements:**
 - Use `services.k8s.aws/adoption-fields` annotation to specify how to find the resource
-- Provide values for required spec fields (the CRD schema still enforces required fields)
+- We recommend omitting the `spec` entirely on adoption since ACK will overwrite the values on adoption.
+- Any fields you do specify in the `spec` will be updated to match the AWS resource after adoption, and a mismatch will not prevent adoption.
 
 **Behavior:**
 - ACK finds the resource using `adoption-fields`
@@ -83,8 +84,6 @@ metadata:
     services.k8s.aws/adoption-policy: "adopt"
     services.k8s.aws/adoption-fields: |
       {"queueURL": "https://sqs.us-west-2.amazonaws.com/123456789012/my-queue"}
-spec:
-  queueName: my-queue
 ```
 
 After adoption, the spec is populated with the actual queue configuration from AWS (visibilityTimeout, messageRetentionPeriod, etc.).
