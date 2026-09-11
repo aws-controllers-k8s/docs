@@ -120,6 +120,11 @@ func generateAPIReference(controllers []types.Controller, path string) error {
 
 		for _, crd := range c.CRDs {
 			if r := parseCRD(crd.Content, c.ServiceName); r != nil {
+				if c.Documentation != nil {
+					if resCfg, ok := c.Documentation.Resources[r.Kind]; ok && resCfg.Note != nil {
+						r.Note = strings.TrimRight(*resCfg.Note, "\n")
+					}
+				}
 				serviceMap[c.ServiceName] = append(serviceMap[c.ServiceName], *r)
 			}
 		}

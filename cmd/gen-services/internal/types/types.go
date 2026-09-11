@@ -15,12 +15,23 @@ package types
 
 // Controller holds data collected from scanning a single controller repo.
 type Controller struct {
-	ServiceName string
-	Path        string
-	Metadata    *Metadata
-	Version     string
-	CRDs        []CRDFile
-	Examples    []ExampleFile
+	ServiceName    string
+	Path           string
+	Metadata       *Metadata
+	Version        string
+	CRDs           []CRDFile
+	Examples       []ExampleFile
+	Documentation  *DocumentationConfig
+}
+
+// DocumentationConfig mirrors the documentation.yaml in controller repos.
+type DocumentationConfig struct {
+	Resources map[string]*ResourceDocsConfig `yaml:"resources"`
+}
+
+// ResourceDocsConfig holds resource-level documentation overrides.
+type ResourceDocsConfig struct {
+	Note *string `yaml:"note"`
 }
 
 // Metadata mirrors the metadata.yaml in controller repos.
@@ -96,6 +107,7 @@ type Resource struct {
 	Version      string  `json:"version"`
 	Scope        string  `json:"scope"`
 	Description  string  `json:"description,omitempty"`
+	Note         string  `json:"note,omitempty"`
 	Path         string  `json:"path"`
 	SpecFields   []Field `json:"specFields"`
 	StatusFields []Field `json:"statusFields"`

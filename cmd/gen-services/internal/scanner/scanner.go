@@ -83,14 +83,16 @@ func scanOne(path, service string) (*types.Controller, error) {
 	}
 
 	examples, _ := collectExamples(path) // non-fatal if missing
+	docCfg, _ := readDocumentationConfig(path) // non-fatal if missing
 
 	return &types.Controller{
-		ServiceName: service,
-		Path:        path,
-		Metadata:    metadata,
-		Version:     version,
-		CRDs:        crds,
-		Examples:    examples,
+		ServiceName:   service,
+		Path:          path,
+		Metadata:      metadata,
+		Version:       version,
+		CRDs:          crds,
+		Examples:      examples,
+		Documentation: docCfg,
 	}, nil
 }
 
@@ -184,6 +186,18 @@ func collectExamples(controllerPath string) ([]types.ExampleFile, error) {
 		})
 	}
 	return examples, nil
+}
+
+func readDocumentationConfig(controllerPath string) (*types.DocumentationConfig, error) {
+	data, err := os.ReadFile(filepath.Join(controllerPath, "documentation.yaml"))
+	if err != nil {
+		return nil, err
+	}
+	var cfg types.DocumentationConfig
+	if err := yaml.Unmarshal(data, &cfg); err != nil {
+		return nil, err
+	}
+	return &cfg, nil
 }
 
 func extractKind(content []byte) string {

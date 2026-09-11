@@ -24,6 +24,7 @@ interface ResourceEntry {
   version: string;
   scope: string;
   description?: string;
+  note?: string;
   path: string;
   specFields: Field[];
   statusFields: Field[];
@@ -319,6 +320,15 @@ function ResourceDetail({ resource, serviceName, onBack, onHome }: { resource: R
       {resource.description && (
         <div className={styles.description}>
           <p><TruncatableDescription text={resource.description} limit={300} /></p>
+        </div>
+      )}
+
+      {resource.note && (
+        <div className={styles.resourceNote}>
+          <div className={styles.resourceNoteHeader}>Note</div>
+          <div className={styles.resourceNoteBody}>
+            <DescriptionMarkdown text={resource.note} />
+          </div>
         </div>
       )}
 
