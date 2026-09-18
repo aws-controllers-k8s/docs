@@ -1,7 +1,7 @@
 .PHONY: build serve generate clean
 
 build:
-	cd website && npm install && npm run build
+	cd website && npm ci && npm run build
 
 serve:
 	cd website && npm run serve
