@@ -94,6 +94,12 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'doc',
+          id: 'ack-cli',
+          label: 'ACK CLI',
+          className: 'sidebar-item-new',
+        },
+        {
+          type: 'doc',
           id: 'guides/field-export',
           label: 'Field Export',
         },
