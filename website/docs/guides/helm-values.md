@@ -187,10 +187,8 @@ Setting `installScope: namespace` automatically configures namespace-scoped RBAC
 - **Example**:
 ```yaml
 resourceTags:
-  - key: team
-    value: platform
-  - key: managed-by
-    value: ack
+  - "team=platform"
+  - "managed-by=ack"
 ```
 
 ## Resource Behavior
