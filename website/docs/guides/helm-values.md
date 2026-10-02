@@ -292,7 +292,7 @@ For cross-account resource management, use the **IAMRoleSelector** feature gate 
 - **Description**: Enable cross-namespace behavior including resource references (`*Ref` fields), secret references (`SecretKeyReference`), and `FieldExport` targets. When `false`, the controller blocks any reference resolution or field export that crosses namespace boundaries. Maps to the `--enable-cross-namespace` controller flag.
 
 :::warning
-The default for `enableCrossNamespace` changed from `true` to `false` in ACK runtime `vX.Y.Z`. If you rely on cross-namespace references, set `enableCrossNamespace: true`. See [Breaking Changes](/breaking-changes) for details.
+The default for `enableCrossNamespace` changed from `true` to `false` in ACK runtime `v0.65.0`. If you rely on cross-namespace references, set `enableCrossNamespace: true`. See [Breaking Changes](/breaking-changes) for details.
 :::
 
 ## Feature Gates
