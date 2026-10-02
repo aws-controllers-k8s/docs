@@ -364,7 +364,7 @@ spec:
 The controller resolves these references at reconciliation time. See the [API Reference](/services) for available reference fields on each CRD.
 
 :::warning
-Resource and Secret references can point to a different namespace by setting a `namespace` field on the reference. This cross-namespace behavior is gated by the `enableCrossNamespace` Helm value (`--enable-cross-namespace` flag), whose default will change from `true` to `false` in a future release. See [Breaking Changes](/breaking-changes) and the [Helm value reference](/guides/helm-values#cross-namespace-references) for details.
+Resource and Secret references can point to a different namespace by setting a `namespace` field on the reference. This cross-namespace behavior is disabled by default; set the `enableCrossNamespace` Helm value (`--enable-cross-namespace` flag) to `true` to allow it. See [Breaking Changes](/breaking-changes) and the [Helm value reference](/guides/helm-values#cross-namespace-references) for details.
 :::
 
 For complex resource orchestration and dependencies, we recommend using [kro (Kube Resource Orchestrator)](https://kro.run).
