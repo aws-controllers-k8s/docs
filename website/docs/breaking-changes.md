@@ -10,7 +10,7 @@ This page tracks breaking changes to ACK controller defaults and behavior. Revie
 ## Cross-Namespace References Default Change
 
 :::warning[Breaking Change]
-For controller versions released after Sep 28, 2026, `--enable-cross-namespace` defaults to `false`. Cross-namespace references and field exports are blocked unless you opt in.
+For controller versions released on or after Oct 8, 2026, `--enable-cross-namespace` defaults to `false`. Cross-namespace references and field exports are blocked unless you opt in.
 :::
 
 ### Summary
@@ -22,7 +22,7 @@ Cross-namespace resource references (including `*Ref` fields, `SecretKeyReferenc
 | Phase | Description |
 |:------|:------------|
 | **Phase 1**<br/>**(June 2026)** | Flag added with default `true`. `ACK.Advisory` condition (reason `CrossNamespaceOptInRequired`) set on resources using cross-namespace references |
-| **Phase 2 (current)**<br/>**(after Sep 28, 2026)** | Flag default changes to `false`. Cross-namespace reference resolution and field exports blocked unless opted in. The `CrossNamespaceOptInRequired` advisory condition is no longer set |
+| **Phase 2 (current)**<br/>**(Oct 8, 2026)** | Flag default changes to `false`. Cross-namespace reference resolution and field exports blocked unless opted in. The `CrossNamespaceOptInRequired` advisory condition is no longer set |
 
 ### Who is affected
 
@@ -35,7 +35,7 @@ If all your references are within the same namespace, **no action is needed**.
 
 ### Action required
 
-If you use cross-namespace references, explicitly opt in when upgrading to a controller version released after Sep 28, 2026:
+If you use cross-namespace references, explicitly opt in when upgrading to a controller version released on or after Oct 8, 2026:
 
 ```yaml
 # values.yaml

@@ -106,7 +106,7 @@ spec:
 
 ## Security Considerations
 
-By default, `FieldExport` only operates within the **same namespace** as the source resource, which prevents users from exporting fields to namespaces they don't have access to. To allow targeting a ConfigMap or Secret in a different namespace, set the `enableCrossNamespace` Helm value (`--enable-cross-namespace` flag) to `true`.
+By default, `FieldExport` only operates within the **same namespace** as the source resource, which prevents users from exporting fields to namespaces they don't have access to. To allow targeting a ConfigMap or Secret in a different namespace, set the [`enableCrossNamespace`](/guides/helm-values#enablecrossnamespace) Helm value (`--enable-cross-namespace` flag) to `true`.
 
 See [Breaking Changes](/breaking-changes) and the [Helm value reference](/guides/helm-values#cross-namespace-references) for details.
 
