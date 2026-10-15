@@ -118,6 +118,11 @@ const sidebars: SidebarsConfig = {
         'guides/helm-values',
         'guides/feature-gates',
         'guides/performance',
+        {
+          type: 'doc',
+          id: 'guides/monitoring',
+          label: 'Monitoring & Metrics',
+        },
       ],
     },
     {
