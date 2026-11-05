@@ -19,6 +19,10 @@ const config: Config = {
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: "/docs/",
+  // Disable the inline script Docusaurus injects to warn about a misconfigured
+  // baseUrl. It writes window.location.pathname into the DOM via innerHTML,
+  // and our baseUrl is fixed, so the banner provides no value.
+  baseUrlIssueBanner: false,
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
