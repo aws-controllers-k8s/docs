@@ -31,6 +31,41 @@ IAM Role Selector introduces the `IAMRoleSelector` CRD, which allows cluster adm
 2. **Target Account**: The AWS account where you want to create/manage resources
 3. **Cross-account IAM role**: A role in the target account that trusts the source account
 4. **Feature enabled**: IAM Role Selector must be enabled via feature flag when installing ACK
+5. **IAMRoleSelector CRD installed**: Every controller chart ships the `IAMRoleSelector` CRD in its `crds/` directory, which Helm installs on `helm install` only, never on `helm upgrade`. If the controller was installed before the CRD existed and upgraded since, apply the CRD from the chart:
+   ```bash
+   helm pull oci://public.ecr.aws/aws-controllers-k8s/$SERVICE-chart --version=$RELEASE_VERSION --untar
+   kubectl apply -f $SERVICE-chart/crds/services.k8s.aws_iamroleselectors.yaml
+   ```
+6. **Cluster-wide read access to IAMRoleSelectors**: `IAMRoleSelector` is cluster-scoped, so the controller lists it across the cluster. With `installScope: cluster` (the default), the chart grants this. With `installScope: namespace`, the chart grants permissions only in the watched namespaces, and the controller cannot list IAMRoleSelectors. Grant it read access with a ClusterRole:
+   ```bash
+   cat <<EOF | kubectl apply -f -
+   apiVersion: rbac.authorization.k8s.io/v1
+   kind: ClusterRole
+   metadata:
+     name: ack-iamroleselectors-reader
+   rules:
+   - apiGroups: ["services.k8s.aws"]
+     resources: ["iamroleselectors"]
+     verbs: ["get", "list", "watch"]
+   ---
+   apiVersion: rbac.authorization.k8s.io/v1
+   kind: ClusterRoleBinding
+   metadata:
+     name: ack-$SERVICE-controller-iamroleselectors-reader
+   roleRef:
+     apiGroup: rbac.authorization.k8s.io
+     kind: ClusterRole
+     name: ack-iamroleselectors-reader
+   subjects:
+   - kind: ServiceAccount
+     name: ack-$SERVICE-controller # serviceAccount.name in the chart values
+     namespace: $ACK_SYSTEM_NAMESPACE
+   EOF
+   ```
+
+:::warning Create selectors before the resources they map
+A resource reconciled while no `IAMRoleSelector` matches it is managed with the controller's own role, in the controller's account. A selector created later does not move it: reconciliation of that resource then fails with `Resource already exists in account ..., but the role used for reconciliation is in account ...`. Create the `IAMRoleSelector` before the resources it maps.
+:::
 
 ### Step 1: Create Cross-Account IAM Role
 
