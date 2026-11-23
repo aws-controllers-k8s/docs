@@ -28,7 +28,7 @@ The quick start below uses Amazon EKS in its examples. On other clusters, use th
 
 Before you begin, make sure you have:
 
-- **Kubernetes cluster** running Kubernetes 1.20 or later, in any of the [deployment environments](#deployment-environments) above
+- **Kubernetes cluster** running Kubernetes 1.30 or later, in any of the [deployment environments](#deployment-environments) above
 - **kubectl** installed and configured
 - **Helm 3.8+** installed ([installation guide](https://helm.sh/docs/intro/install/))
 - **AWS account** with appropriate permissions
