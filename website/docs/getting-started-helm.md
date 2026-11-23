@@ -6,21 +6,33 @@ sidebar_label: Using Helm
 
 # Self-Managed Installation with Helm
 
-This guide shows you how to install ACK controllers yourself using Helm. This method works on any Kubernetes cluster and gives you full control over controller configuration.
+This guide shows you how to install ACK controllers yourself using Helm. This method works on any CNCF-certified Kubernetes cluster and gives you full control over controller configuration.
+
+## Deployment environments
+
+ACK controllers run on any [CNCF-certified Kubernetes](https://www.cncf.io/training/certification/software-conformance/) cluster, not just Amazon EKS. The controllers have no platform-specific dependencies. For example:
+
+- **Managed cloud services:** Amazon EKS, Google Kubernetes Engine (GKE), Azure Kubernetes Service (AKS), and Oracle Kubernetes Engine (OKE)
+- **On-premises and private cloud:** Red Hat OpenShift, SUSE Rancher, and VMware VKS
+- **Local development:** kind and minikube
+
+These are examples, not a complete list. Any distribution on the [CNCF list of certified Kubernetes products](https://www.cncf.io/training/certification/software-conformance/) works the same way.
+
+:::note Runs anywhere is not the same as supported everywhere
+Other platforms and Kubernetes versions are expected to work, but aren't covered by the project's automated tests and carry no support commitment. For a fully managed and supported deployment, see [EKS Capabilities](./getting-started-eks.md). Everywhere else, ACK is a community-supported open source project: report problems in [GitHub issues](https://github.com/aws-controllers-k8s/community/issues), but direct any platform-specific questions and issues to your provider or vendor.
+:::
+
+The quick start below uses Amazon EKS in its examples. On other clusters, use the **Other** tab in Step 2 for credentials.
 
 ## Prerequisites
 
 Before you begin, make sure you have:
 
-- **Kubernetes cluster** (any Kubernetes 1.20+, including EKS, GKE, AKS, kind, minikube)
+- **Kubernetes cluster** running Kubernetes 1.30 or later, in any of the [deployment environments](#deployment-environments) above
 - **kubectl** installed and configured
 - **Helm 3.8+** installed ([installation guide](https://helm.sh/docs/intro/install/))
 - **AWS account** with appropriate permissions
 - **AWS CLI** installed and configured (optional, but helpful)
-
-:::tip Works on any Kubernetes
-ACK works on **any** Kubernetes cluster, not just Amazon EKS. You can run it on GKE, AKS, on-premises clusters, or even local development clusters like kind or minikube.
-:::
 
 ## Quick Start: Create a DynamoDB Table
 

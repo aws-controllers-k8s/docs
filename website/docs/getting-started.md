@@ -22,8 +22,8 @@ There are two ways to get started with ACK, depending on whether you're using Am
         <ul>
           <li>Fastest setup - no Helm or CLI required</li>
           <li>Automatic controller updates</li>
-          <li>Access to all controllers - use what you need</li>
-          <li>Auto-scaling and auto-tuning included</li>
+          <li>Access to all GA controllers - use what you need</li>
+          <li>Highly available, with automatic scaling</li>
         </ul>
         <a href="/docs/getting-started-eks" className="button button--primary button--block">Get Started with EKS Capabilities</a>
       </div>
@@ -37,11 +37,11 @@ There are two ways to get started with ACK, depending on whether you're using Am
       </div>
       <div className="card__body">
         <p><strong>For any Kubernetes cluster</strong></p>
-        <p>Install ACK controllers yourself using Helm. Works on EKS, GKE, AKS, on-premises clusters, or local development environments.</p>
+        <p>Install ACK controllers yourself using Helm. Works on any CNCF-certified Kubernetes cluster: managed cloud services, on-premises, or local development.</p>
         <ul>
           <li>Full control over versions and configuration</li>
-          <li>Works on any Kubernetes 1.20+</li>
-          <li>Access to all 50+ controllers</li>
+          <li>Works on any CNCF-certified Kubernetes</li>
+          <li>Access to all controllers, including those in preview</li>
           <li>Customize controller settings</li>
         </ul>
         <a href="/docs/getting-started-helm" className="button button--primary button--block">Get Started with Helm</a>
@@ -61,10 +61,10 @@ There are two ways to get started with ACK, depending on whether you're using Am
 
 **Use Self-Managed Installation if:**
 
-- You're running on GKE, AKS, or on-premises Kubernetes
 - You want full control over versions and configuration
 - You need to customize controller settings
 - You're developing or testing ACK controllers
+- You're running Kubernetes outside Amazon EKS (see [deployment environments](./getting-started-helm.md#deployment-environments))
 
 ## What's Next?
 
