@@ -97,12 +97,16 @@ The `services.k8s.aws/adoption-fields` annotation specifies which fields ACK sho
 
 | Resource Type | Adoption Field | Example |
 |--------------|----------------|---------|
+| DBCluster | `dbClusterIdentifier` | `{"dbClusterIdentifier": "my-db-cluster"}` |
+| DynamoDB Table | `tableName` | `{"tableName": "my-table"}` |
 | EKS Cluster | `name` | `{"name": "my-cluster"}` |
+| IAM Policy | `arn` | `{"arn": "arn:aws:iam::123456789012:policy/my-policy"}` |
+| IAM Role | `name` | `{"name": "my-role"}` |
+| ReplicationGroup | `replicationGroupID` | `{"replicationGroupID": "my-redis-cluster"}` |
+| S3 Bucket | `name` | `{"name": "my-bucket-name"}` |
+| SNS Topic | `arn` | `{"arn": "arn:aws:sns:us-west-2:123456789012:my-topic"}` |
 | SQS Queue | `queueURL` | `{"queueURL": "https://sqs.us-west-2.amazonaws.com/123456789012/my-queue"}` |
 | VPC | `vpcID` | `{"vpcID": "vpc-123456789012"}` |
-| SNS Topic | `arn` | `{"arn": "arn:aws:sns:us-west-2:123456789012:my-topic"}` |
-| S3 Bucket | `name` | `{"name": "my-bucket-name"}` |
-| DynamoDB Table | `tableName` | `{"tableName": "my-table"}` |
 
 Refer to the [API Reference](/services) for the specific fields required for each resource type.
 
